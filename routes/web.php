@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
     return '<h2><b>Hello? World!</b></h2>';
 });*/
 
-/*Создадим еще одну стартовую страницу но уже маршрут будет вести на файл с html разметкой*/
+/*Создадим еще одну стартовую страницу но уже маршрут будет вести на файл "home.blade.php" с html разметкой*/
 Route::get('/', function () {
 //    В данной коллбек функции можно писать какой нибдуь код, помимо ретерна вида
     $res = 4 + 7;
@@ -43,15 +43,88 @@ Route::get('/', function () {
 //    И здесь возвращаем специальную функцию хелпер - view, данная функция поможет
 //    вернуть вид (home) с какими то данными из дирректории 'resources/views'
 //    создаём вид 'home' в дирректории 'resources/views/home.blade.php'
-    return view('home', compact('res', 'name'));
 //    return view('home', ['res' => $res, 'name' => $name]);
 //    return view('home')->with('res', $res);
+    return view('home', compact('res', 'name'));
 });
 
 /** что бы создать еще одну страницу помимо главной - надо прописать для нее путь и создать Вид: */
 Route::get('about', function () {
     return '<h3>Допустим About page</h3>';  // http://laravel-theory/about - откроет новую страницу
 });
+
+/*для отправки формы надо либо писать 2 емтода отдельно, либо использовать метод match()*/
+/*Route::get('contact', function () {
+    return view('contact');
+});
+Route::post('/send-email', function () {
+    if(!empty($_POST)){
+        dump($_POST);  // функция dump() красиво распечатывает данные массивов в laravel
+    }
+    return 'Send Email';
+});*/
+
+
+/** методы для отправки формы */
+/* Используем метод match() для того что бы задействовать 2 метода post and get
+Его удобно использовать для страниц с формой */
+Route::match(['post', 'get'], '/contact', function () {
+    if(!empty($_POST)){
+        dump($_POST);
+    }
+    return view('contact');
+});
+
+
+/** использование именованых маршрутов*/
+/*Route::match(['post', 'get'], '/contact', function () {
+    if(!empty($_POST)){
+        dump($_POST);
+    }
+    return view('contact');
+})->name('contact');*/  // задаем имя для маршрута и затем в шаблоне указываем route('contact')
+
+
+/** вывод страницы используя метод view() */
+Route::view('/test', 'test', ['test' => 'Test data']);
+
+
+/** Редирект страницы с одного адреса на другой redirect('/about',--> '/contact') */
+//Route::redirect('/about', '/contact');
+//Route::redirect('/about', '/contact', 301);  // редирект с передачей кода статуса 301
+//Route::permanentRedirect('about', 'contact');
+
+
+
+/*
+Route::get($uri, $callback);  // основные методы | простые запросы страниц
+Route::post($uri, $callback);  // основные методы | запросы для ФОРМ
+Route::delete($uri, $callback);  // основные методы
+Route::put($uri, $callback);
+Route::patch($uri, $callback);
+Route::options($uri, $callback);
+
+Route::match(['get', 'post'], '/', function () {
+    // маршрут, который отвечает на несколько HTTP-команд
+});
+
+Route::any('/', function () {
+    // маршрут, который отвечает на все HTTP-команды,
+});
+*/
+
+
+
+/** Шаборнизатор Blade: */
+
+/*указываем маршрут до контроллеров Home and Page и даем имена шаблонам '->name('home')' для дальнейшего задания
+корректных ссылок с помощью функции Route */
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/page/about', 'PageController@show')->name('page.about');
+
+
+
+
 
 
 
