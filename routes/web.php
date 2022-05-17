@@ -122,6 +122,10 @@ Route::any('/', function () {
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/page/about', 'PageController@show')->name('page.about');
 
+/** задаем маршрут (ссылка) '/page/about'.
+ * Указываем контроллер и метод 'PageController@show', которые должны отработать при запросе на этот адрес
+ * задаем удобные имена шаблонам для дальнейшего корректного формирования ссылок '->name('page.about')'
+ */
 
 
 

@@ -1,16 +1,25 @@
 {{--ЗАКОММЕНТИРОВАЛ НАЧАЛО И КОНЕЦ СТРАНИЦЫ--}}
-{{--@extends('layouts.layout')--}}
-{{----}}
-{{--@section('header')--}}
-{{--    @parent--}}
-{{--@endsection--}}
-{{----}}
-{{--@section('content')--}}
+{{--ШАБЛОНЫ - повторяющийся код страниц вынесли в отдельные файлы в дир-ию views/layouts--}}
+
+{{-- Дирректива @extends позволяет подключать/расширять информацию из шаблона. И аргументом указываем маршрут до
+ файла-шаблона 'layouts.layout' --}}
+@extends('layouts.layout') {{--подключать/расширять--}}
+
+{{-- директива указывает в какой секции будем работать --}}
+@section('header')
+    @parent  {{--дирректива наследования - подключает хедер из щаблона layout--}}
+    {{--можно переопределить хедер подключив другой файл, написав свой код или оставить как есть и добавить что то--}}
+@endsection
+
+@section('content')
 <section class="jumbotron text-center">
     <div class="container">
         <h2>Home page</h2>
     </div>
 </section>
+
+{{--подключение стилей - Laravel по умолчанию ищет скрипты и стили в дир-ии public--}}
+{{--<link rel="stylesheet" href="/css/main.css">--}}
 
 <div class="album py-5 bg-light">
     <div class="container">
@@ -156,7 +165,7 @@
         </div>
     </div>
 </div>
-{{--@endsection--}}
+@endsection
 
 
 {{--такой вывод информации в шаблонизаторе не приветствуется--}}
